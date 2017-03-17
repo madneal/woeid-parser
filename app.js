@@ -3,8 +3,9 @@ var fs = require('fs');
 var cityConfig = ['wuhu', 'shanghai', 'beijing', 'hangzhou', 'nanjing', 'wuxi'];
 var cheerio = require('cheerio');
 var url = 'http://woeid.rosselliot.co.nz/lookup/';
-var attrNames = ['city', 'province', 'contry', 'woeid'];
+var attrNames = ['city', 'province', 'conutry', 'woeid'];
 var result = [];
+
 cityConfig.forEach(function(city) {
 	request.get(url + city)
 	.end(function(err, res) {
@@ -17,6 +18,15 @@ cityConfig.forEach(function(city) {
 				})
 				result.push(obj);
 		});
+		var isEmpty = function(object) {
+			for (var key in object) {
+				return false;
+			}
+			return true;
+		}
+		result = result.filter(function(obj) {
+			return obj.country !== 'China' && !isEmpty(obj);
+		})
 		fs.writeFile('result.json', JSON.stringify(result));
 	})
 });
