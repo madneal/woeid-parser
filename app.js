@@ -1,9 +1,9 @@
 var request = require('superagent');
 var fs = require('fs');
-var cityConfig = ['wuhu', 'shanghai', 'beijing', 'hangzhou', 'nanjing', 'wuxi'];
+var cityConfig = ['wuhu', 'shanghai', 'beijing', 'hangzhou', 'nanjing', 'wuxi', 'xiamen', 'longyan'];
 var cheerio = require('cheerio');
 var url = 'http://woeid.rosselliot.co.nz/lookup/';
-var attrNames = ['city', 'province', 'conutry', 'woeid'];
+var attrNames = ['city', 'province', 'country', 'woeid'];
 var result = [];
 
 cityConfig.forEach(function(city) {
@@ -25,8 +25,8 @@ cityConfig.forEach(function(city) {
 			return true;
 		}
 		result = result.filter(function(obj) {
-			return obj.country !== 'China' && !isEmpty(obj);
+			return obj.country === 'China' && !isEmpty(obj);
 		})
-		fs.writeFile('result.json', JSON.stringify(result));
+		fs.writeFile('result.json', JSON.stringify(result, null, "\t"));
 	})
 });
